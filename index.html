@@ -3,351 +3,378 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#10050c">
-  <meta name="description" content="A little heartbeat, seven memories, and a love beyond the universe.">
-  <title>Touch My Heart ♥</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10040d">
+  <title>My Heart Beats for You ❤️</title>
 
   <style>
     :root {
-      --pink: #ff356e;
-      --rose: #ff9bb8;
-      --background: #10050c;
+      --bg: #10040d;
+      --pink: #ff91b6;
+      --soft-pink: #ffd9e5;
+      --red: #ff174d;
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
-      margin: 0;
+    html,
+    body {
       width: 100%;
-      height: 100%;
-      overflow: hidden;
+      min-height: 100%;
+      margin: 0;
     }
 
     body {
+      min-height: 100svh;
+      overflow: hidden;
       background:
-        radial-gradient(ellipse at 50% 45%,
-          #421326 0%, #200b17 42%, #080509 100%);
-      color: #ffe3ec;
+        radial-gradient(ellipse at 50% 42%, #421026 0%, #210817 36%, #10040d 76%);
+      color: white;
       font-family: Georgia, "Times New Roman", serif;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
+    }
+
+    button {
+      font: inherit;
     }
 
     .stage {
       position: relative;
       isolation: isolate;
       width: 100%;
-      height: 100vh;
-      height: 100dvh;
+      height: 100svh;
+      min-height: 480px;
       overflow: hidden;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 28px 18px 105px;
     }
 
-    /* Ambient romantic lighting */
+    /* Subtle background atmosphere */
 
-    .glow {
+    .ambient-glow {
       position: absolute;
-      width: 85vw;
-      height: 85vw;
-      max-width: 600px;
-      max-height: 600px;
+      z-index: -2;
+      width: min(90vw, 430px);
+      aspect-ratio: 1;
       border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        #ff286b25 0%,
-        #ff286b0c 43%,
-        transparent 72%
-      );
-      animation: ambientGlow 4s ease-in-out infinite alternate;
+      background: #ff174d;
+      opacity: 0.075;
+      filter: blur(85px);
       pointer-events: none;
     }
 
-    .particle {
+    .sparkle {
       position: absolute;
-      z-index: 1;
-      bottom: -35px;
-      color: #ff8aaa;
-      opacity: 0;
+      z-index: -1;
+      color: #ff9fbd;
+      opacity: 0.45;
       pointer-events: none;
-      animation: floatUp 9s linear infinite;
+      animation: sparkle 3s ease-in-out infinite alternate;
     }
 
-    .p1 { left: 12%; animation-delay: 0s; }
-    .p2 { left: 78%; animation-delay: 3s; }
-    .p3 { left: 53%; animation-delay: 6s; }
+    .sparkle:nth-of-type(2) {
+      top: 16%;
+      left: 15%;
+      animation-delay: .8s;
+    }
 
-    /* Heart screen */
+    .sparkle:nth-of-type(3) {
+      top: 25%;
+      right: 14%;
+      animation-delay: 1.5s;
+    }
+
+    .sparkle:nth-of-type(4) {
+      bottom: 24%;
+      left: 19%;
+      animation-delay: .4s;
+    }
+
+    .sparkle:nth-of-type(5) {
+      right: 17%;
+      bottom: 30%;
+      animation-delay: 1.2s;
+    }
+
+    @keyframes sparkle {
+      from {
+        opacity: .12;
+        transform: scale(.75);
+      }
+      to {
+        opacity: .65;
+        transform: scale(1.2);
+      }
+    }
+
+    /* Heart experience */
 
     .experience {
       position: relative;
       z-index: 2;
       width: 100%;
-      height: 100%;
-      padding: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      transition: opacity .65s ease, transform .65s ease;
     }
 
     .heart-area {
-      position: relative;
-      width: min(68vw, 310px);
-      aspect-ratio: 1.08;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: min(66vw, 290px);
+      max-width: 290px;
+      min-width: 190px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
       cursor: pointer;
+      outline: none;
       touch-action: manipulation;
-      filter:
-        drop-shadow(0 0 16px #ff174b60)
-        drop-shadow(0 0 38px #ff174b35);
-      transition:
-        opacity .8s ease,
-        transform .8s cubic-bezier(.2,.8,.2,1),
-        filter .8s ease;
+      transition: opacity .55s ease, transform .65s ease;
+      filter: drop-shadow(0 0 22px #ff174d35);
     }
 
-    .heart-area.beating {
-      animation: heartBeat 1.15s ease-in-out infinite;
+    .heart-area:focus-visible {
+      outline: 2px solid var(--pink);
+      outline-offset: 8px;
+      border-radius: 40%;
     }
 
-    .heart-area.leaving {
-      opacity: 0;
-      transform: scale(.52);
-      filter: drop-shadow(0 0 0 transparent);
-      pointer-events: none;
-      animation: none;
-    }
-
-    .heart-area svg {
-      display: block;
+    .heart-svg {
       width: 100%;
       height: 100%;
       overflow: visible;
+      transform-origin: 50% 55%;
+      animation: heartBeat 1.15s infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      8% { transform: scale(1.09); }
+      16% { transform: scale(1); }
+      25% { transform: scale(1.14); }
+      37% { transform: scale(1); }
+      50% { transform: scale(1.015); }
     }
 
     .heart-message {
-      min-height: 44px;
-      margin-top: 22px;
-      color: #ffd6e2;
-      font-size: clamp(21px, 5vw, 29px);
-      letter-spacing: .4px;
+      margin-top: 18px;
+      color: #ffcfdf;
+      font-size: clamp(17px, 4.7vw, 23px);
       text-align: center;
-      text-shadow: 0 0 18px #ff477e80;
-      opacity: 1;
-      transform: translateY(0);
-      transition:
-        opacity .5s ease,
-        transform .5s ease;
-      pointer-events: none;
+      letter-spacing: .5px;
+      line-height: 1.5;
+      text-shadow: 0 0 18px #ff387a45;
+      transition: opacity .4s ease;
     }
 
     .heart-message span {
-      color: #ff8eae;
+      display: block;
+      margin-top: 5px;
+      color: #ff8eb3;
+      font-size: clamp(25px, 6.4vw, 34px);
       font-style: italic;
     }
 
-    .heart-message.hidden {
-      opacity: 0;
-      transform: translateY(10px);
+    .hint {
+      margin-top: 13px;
+      color: #d9a2b7;
+      opacity: .72;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
     }
 
-    /* Cinematic photo scene */
+    /* Photos */
 
     .photo-frame {
       position: absolute;
       z-index: 3;
       inset: 0;
-      padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background:
-        radial-gradient(
-          ellipse at center,
-          #351021 0%,
-          #180811 58%,
-          #080509 100%
-        );
+      padding: 18px;
+      background: #10040df7;
       opacity: 0;
       visibility: hidden;
-      transform: scale(1.025);
+      pointer-events: none;
       transition:
         opacity 1s ease,
-        transform 1.2s cubic-bezier(.16,1,.3,1),
-        visibility 1s;
-      pointer-events: none;
+        visibility 1s ease;
     }
 
     .photo-frame.visible {
       opacity: 1;
       visibility: visible;
-      transform: scale(1);
     }
 
     .photo-frame img {
       display: block;
+      max-width: 100%;
+      max-height: 100%;
       width: auto;
       height: auto;
-      max-width: min(88vw, 480px);
-      max-height: 76dvh;
       object-fit: contain;
-      border-radius: 16px;
+      border-radius: 5px;
       opacity: 0;
-      transform: scale(.78) translateY(12px);
-      filter: brightness(.45) blur(9px);
-      box-shadow:
-        0 20px 80px #000c,
-        0 0 30px #ff356e25,
-        0 0 0 1px #ffc1d51c;
+      transform: scale(.91);
+      filter: drop-shadow(0 0 28px #ff174d18);
       transition:
-        opacity 1.3s ease,
-        transform 4s cubic-bezier(.16,1,.3,1),
-        filter 1.4s ease,
-        box-shadow 1.5s ease;
+        opacity 1.15s ease,
+        transform 1.8s cubic-bezier(.2, .7, .2, 1);
     }
 
     .photo-frame.visible img {
       opacity: 1;
-      transform: scale(1) translateY(0);
-      filter: brightness(1) blur(0);
-      box-shadow:
-        0 20px 80px #000c,
-        0 0 35px #ff356e38,
-        0 0 0 1px #ffc1d51c;
+      transform: scale(1);
     }
 
-    /* The final memory: a dramatic, slower reveal */
-
     .photo-frame.final-memory {
+      padding: 12px;
       background:
-        radial-gradient(
-          ellipse at center,
-          #25113b 0%,
-          #100817 55%,
-          #030207 100%
-        );
+        radial-gradient(ellipse at center, #250918 0%, #10040d 78%);
     }
 
     .photo-frame.final-memory img {
-      max-width: 94vw;
-      max-height: 84dvh;
-      border-radius: 10px;
-      box-shadow:
-        0 0 35px #a66aff25,
-        0 0 100px #7139b625,
-        0 25px 90px #000d;
+      max-width: 100%;
+      max-height: 96%;
     }
 
-    .photo-frame.final-memory.visible img {
-      animation: universeReveal 6s cubic-bezier(.16,1,.3,1) both;
-    }
+    /* Silence button */
 
-    @keyframes universeReveal {
-      0% {
-        opacity: 0;
-        transform: scale(.70);
-        filter: brightness(.25) blur(12px);
-      }
-      28% {
-        opacity: 1;
-        filter: brightness(.75) blur(2px);
-      }
-      60% {
-        filter: brightness(1.05) blur(0);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1.035);
-        filter: brightness(1) blur(0);
-      }
-    }
-
-    /* Small sparks on touch */
-
-    .spark {
+    .silence-button {
       position: absolute;
-      z-index: 4;
-      color: #ff8aaa;
-      font-size: 20px;
-      text-shadow: 0 0 14px #ff477e;
+      z-index: 5;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max-content;
+      max-width: calc(100% - 32px);
+      padding: 13px 21px;
+      border: 1px solid #ff8eae75;
+      border-radius: 40px;
+      background: linear-gradient(135deg, #491328e8, #200b17ed);
+      color: #ffd6e2;
+      font-size: clamp(12px, 3.4vw, 15px);
+      letter-spacing: .3px;
+      text-align: center;
+      box-shadow: 0 0 22px #ff356e18;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition:
+        background .4s ease,
+        border-color .4s ease,
+        opacity .4s ease,
+        transform .3s ease;
+    }
+
+    .silence-button:active {
+      transform: translateX(-50%) scale(.96);
+    }
+
+    .silence-button:focus-visible {
+      outline: 2px solid #ffb4c9;
+      outline-offset: 4px;
+    }
+
+    .silence-button:disabled {
+      cursor: default;
+      opacity: .75;
+    }
+
+    .silence-button.silenced {
+      border-color: #ff8eae35;
+      background: #170b13e8;
+      color: #ffb7cc;
+    }
+
+    /* Forever message */
+
+    .forever-message {
+      position: absolute;
+      z-index: 6;
+      bottom: 95px;
+      left: 50%;
+      width: min(88%, 440px);
+      transform: translate(-50%, 14px);
+      color: #ffd9e5;
+      font-size: clamp(16px, 4.2vw, 22px);
+      line-height: 1.65;
+      font-style: italic;
+      text-align: center;
+      text-shadow: 0 0 20px #ff477e50;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 1.2s ease,
+        transform 1.2s ease,
+        visibility 1.2s;
       pointer-events: none;
-      animation: sparkUp 1.3s ease-out forwards;
     }
 
-    @keyframes heartBeat {
-      0%, 100% { transform: scale(1); }
-      12% { transform: scale(1.07); }
-      23% { transform: scale(.99); }
-      35% { transform: scale(1.13); }
-      48% { transform: scale(1); }
+    .forever-message.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
     }
 
-    @keyframes ambientGlow {
-      from { transform: scale(.88); opacity: .6; }
-      to { transform: scale(1.12); opacity: 1; }
+    /* Heart disappears during a photo reveal */
+
+    .experience.hidden {
+      opacity: 0;
+      transform: scale(.92);
+      pointer-events: none;
     }
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(.6) rotate(0);
-        opacity: 0;
+    .experience.hidden .heart-area {
+      transform: scale(.7);
+    }
+
+    @media (max-height: 600px) {
+      .stage {
+        padding-top: 12px;
+        padding-bottom: 82px;
       }
-      15% { opacity: .55; }
-      85% { opacity: .3; }
-      100% {
-        transform: translateY(-110vh) scale(1.3) rotate(35deg);
-        opacity: 0;
-      }
-    }
 
-    @keyframes sparkUp {
-      from {
-        opacity: 0;
-        transform: translateY(0) scale(.6);
-      }
-      20% { opacity: 1; }
-      to {
-        opacity: 0;
-        transform: translateY(-100px) scale(1.4) rotate(25deg);
-      }
-    }
-
-    @media (max-width: 520px) {
       .heart-area {
-        width: min(74vw, 285px);
+        width: min(48vh, 220px);
+        min-width: 150px;
       }
 
       .heart-message {
-        margin-top: 18px;
+        margin-top: 5px;
       }
 
-      .photo-frame {
-        padding: 14px;
+      .hint {
+        margin-top: 5px;
       }
 
-      .photo-frame img {
-        max-width: 92vw;
-        max-height: 78dvh;
-        border-radius: 12px;
+      .silence-button {
+        bottom: 13px;
+        padding: 10px 16px;
       }
 
-      .photo-frame.final-memory img {
-        max-width: 96vw;
-        max-height: 86dvh;
+      .forever-message {
+        bottom: 68px;
+        font-size: 15px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .glow,
-      .particle {
-        animation-duration: 12s;
+      .sparkle {
+        animation: none;
+      }
+
+      .heart-svg {
+        animation-duration: 2.3s;
       }
     }
   </style>
@@ -355,280 +382,352 @@
 
 <body>
   <main class="stage" id="stage">
+    <div class="ambient-glow"></div>
 
-    <div class="glow"></div>
+    <div class="sparkle" aria-hidden="true">✦</div>
+    <div class="sparkle" aria-hidden="true">✧</div>
+    <div class="sparkle" aria-hidden="true">✦</div>
+    <div class="sparkle" aria-hidden="true">✧</div>
 
-    <span class="particle p1">♡</span>
-    <span class="particle p2">♥</span>
-    <span class="particle p3">✦</span>
-
-    <section class="experience">
-
+    <section class="experience" id="experience">
       <div
-        class="heart-area beating"
+        class="heart-area"
         id="heartArea"
         role="button"
         tabindex="0"
-        aria-label="Touch my heart"
+        aria-label="Touch my heart to reveal a memory"
       >
-        <svg viewBox="0 0 240 220"
-             xmlns="http://www.w3.org/2000/svg"
-             aria-hidden="true">
+        <svg
+          class="heart-svg"
+          viewBox="0 0 200 190"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
           <defs>
-            <linearGradient id="heartGradient"
-              x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ff9aaf"/>
-              <stop offset="22%" stop-color="#ff527d"/>
-              <stop offset="53%" stop-color="#e90d48"/>
-              <stop offset="78%" stop-color="#b80539"/>
-              <stop offset="100%" stop-color="#65051f"/>
+            <linearGradient id="heartGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff829f"/>
+              <stop offset="24%" stop-color="#ff365e"/>
+              <stop offset="62%" stop-color="#ed003b"/>
+              <stop offset="100%" stop-color="#8d0028"/>
             </linearGradient>
 
-            <linearGradient id="shadowGradient"
-              x1="0" y1="0" x2=".8" y2="1">
-              <stop offset="0%" stop-color="#ffb0c5"
-                    stop-opacity=".05"/>
-              <stop offset="55%" stop-color="#79001e"
-                    stop-opacity=".12"/>
-              <stop offset="100%" stop-color="#27000b"
-                    stop-opacity=".75"/>
+            <linearGradient id="heartShine" x1="0" y1="0" x2=".8" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity=".72"/>
+              <stop offset="35%" stop-color="#ffffff" stop-opacity=".12"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
             </linearGradient>
 
-            <linearGradient id="shineGradient"
-              x1="0" y1="0" x2="1" y2=".8">
-              <stop offset="0%" stop-color="#fff0f5"
-                    stop-opacity=".85"/>
-              <stop offset="30%" stop-color="#ffb6cb"
-                    stop-opacity=".4"/>
-              <stop offset="100%" stop-color="#ffb6cb"
-                    stop-opacity="0"/>
-            </linearGradient>
+            <radialGradient id="heartLight" cx="30%" cy="18%" r="75%">
+              <stop offset="0%" stop-color="#ffbdcf" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="#ffbdcf" stop-opacity="0"/>
+            </radialGradient>
 
-            <filter id="softGlow" x="-100%" y="-100%"
-                    width="300%" height="300%">
-              <feGaussianBlur stdDeviation="2"/>
+            <filter id="heartShadow" x="-30%" y="-30%" width="160%" height="170%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+              <feOffset dy="6"/>
+              <feComponentTransfer>
+                <feFuncA type="linear" slope=".32"/>
+              </feComponentTransfer>
+              <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
             </filter>
 
             <clipPath id="heartClip">
-              <path d="M120 202
-                C104 185 22 128 15 77
-                C8 33 39 8 72 16
-                C96 19 112 37 120 53
-                C132 29 151 13 177 15
-                C211 17 233 45 224 82
-                C215 130 144 185 120 202 Z"/>
+              <path d="M100 174
+                C88 163 20 112 12 70
+                C4 31 31 10 59 15
+                C79 17 92 30 100 43
+                C110 26 126 14 146 15
+                C176 15 195 40 188 70
+                C180 112 113 163 100 174Z"/>
             </clipPath>
           </defs>
 
-          <path
-            fill="url(#heartGradient)"
-            stroke="#ff9bb5"
-            stroke-width=".8"
-            d="M120 202
-              C104 185 22 128 15 77
-              C8 33 39 8 72 16
-              C96 19 112 37 120 53
-              C132 29 151 13 177 15
-              C211 17 233 45 224 82
-              C215 130 144 185 120 202 Z"/>
+          <g filter="url(#heartShadow)">
+            <path
+              d="M100 174
+                C88 163 20 112 12 70
+                C4 31 31 10 59 15
+                C79 17 92 30 100 43
+                C110 26 126 14 146 15
+                C176 15 195 40 188 70
+                C180 112 113 163 100 174Z"
+              fill="url(#heartGradient)"
+            />
 
-          <g clip-path="url(#heartClip)">
-            <path fill="url(#shadowGradient)"
-              d="M120 53
-                C99 25 62 26 46 47
-                C31 67 43 100 66 123
-                C89 145 107 161 120 202
-                C133 161 155 143 178 119
-                C200 94 212 65 194 44
-                C177 25 144 28 120 53 Z"/>
+            <g clip-path="url(#heartClip)">
+              <ellipse
+                cx="64"
+                cy="45"
+                rx="76"
+                ry="62"
+                fill="url(#heartLight)"
+              />
 
-            <ellipse fill="url(#shineGradient)"
-              cx="68" cy="48" rx="36" ry="21"
-              transform="rotate(-32 68 48)"/>
+              <path
+                d="M22 56
+                  C24 31 43 22 60 26
+                  C75 29 83 37 88 45
+                  C71 39 57 40 47 50
+                  C38 59 34 70 35 82
+                  C26 74 22 66 22 56Z"
+                fill="url(#heartShine)"
+              />
 
-            <ellipse fill="#fff0f5"
-              opacity=".8"
-              filter="url(#softGlow)"
-              cx="52" cy="39" rx="15" ry="5"
-              transform="rotate(-32 52 39)"/>
-
-            <path d="M24 78 C29 47 47 35 72 39"
-              fill="none"
-              stroke="#ffd5e1"
-              stroke-opacity=".55"
-              stroke-width="2"
-              stroke-linecap="round"/>
+              <path
+                d="M18 70
+                  C20 48 30 35 45 32"
+                fill="none"
+                stroke="#fff"
+                stroke-opacity=".25"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </g>
           </g>
         </svg>
       </div>
 
       <div class="heart-message" id="heartMessage">
-        Touch my heart..<span>Pakhi</span>
+        Touch my heart..
+        <span id="petName">Pakhi</span>
       </div>
 
+      <div class="hint">One touch · One memory · Infinite love</div>
     </section>
 
-    <div class="photo-frame" id="photoFrame">
-      <img id="photo" alt="A special memory">
+    <div class="photo-frame" id="photoFrame" aria-hidden="true">
+      <img id="memoryPhoto" src="photo1.jpg" alt="A special memory">
     </div>
 
+    <button class="silence-button" id="silenceButton" type="button">
+      ♡ Tap to silence my heartbeat ♡
+    </button>
+
+    <div class="forever-message" id="foreverMessage" aria-live="polite">
+      My heartbeat may fall silent, but my love for you
+      will beat on forever — beyond time, beyond the
+      universe, for all infinity. ♾️❤️
+    </div>
   </main>
 
   <script>
     (() => {
-      /*
-       * All seven photos are in the repository root.
-       * Keep the filenames exactly as written here.
-       */
-      const photos = [
-        "photo1.jpg",
-        "photo2.jpg",
-        "photo3.jpg",
-        "photo4.jpg",
-        "photo5.jpg",
-        "photo6.jpg",
-        "photo7.jpg"
+      "use strict";
+
+      // Keep these photos in the same GitHub repository folder
+      // as index.html.
+      const memories = [
+        { photo: "photo1.jpg", name: "Pakhi", final: false },
+        { photo: "photo2.jpg", name: "Shona pakhi", final: false },
+        { photo: "photo3.jpg", name: "Puttu pakhi", final: false },
+        { photo: "photo4.jpg", name: "Puchu pakhi", final: false },
+        { photo: "photo5.jpg", name: "Mitti pakhi", final: false },
+        { photo: "photo6.jpg", name: "Munu pakhi", final: false },
+        { photo: "photo7.jpg", name: "Jaan Pakhi", final: true }
       ];
 
-      const names = [
-        "Pakhi",
-        "Shona pakhi",
-        "Puttu pakhi",
-        "Puchu pakhi",
-        "Mitti pakhi",
-        "Munu pakhi",
-        "Jaan Pakhi"
-      ];
-
-      const stage = document.getElementById("stage");
-      const heart = document.getElementById("heartArea");
-      const message = document.getElementById("heartMessage");
+      const heartArea = document.getElementById("heartArea");
+      const experience = document.getElementById("experience");
+      const petName = document.getElementById("petName");
       const photoFrame = document.getElementById("photoFrame");
-      const photo = document.getElementById("photo");
+      const memoryPhoto = document.getElementById("memoryPhoto");
+      const silenceButton = document.getElementById("silenceButton");
+      const foreverMessage = document.getElementById("foreverMessage");
 
       let current = 0;
       let busy = false;
+      let soundMuted = false;
+
       let audioContext = null;
+      let masterGain = null;
       let heartbeatTimer = null;
-      let heartbeatGain = null;
       let audioReady = false;
       let fadeTimer = null;
-      let transitionTimers = [];
+      let audioGeneration = 0;
+      let sequenceGeneration = 0;
 
       const HEARTBEAT_INTERVAL = 1150;
-      const HEART_FADE_SECONDS = 0.8;
+      const PHOTO_DURATION = 4500;
+      const FINAL_PHOTO_DURATION = 7500;
 
-      function later(callback, delay) {
-        const timer = setTimeout(callback, delay);
-        transitionTimers.push(timer);
-        return timer;
+      function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
       }
 
-      function clearTransitionTimers() {
-        transitionTimers.forEach(clearTimeout);
-        transitionTimers = [];
+      // Create the sound using the browser's Web Audio API.
+      function createAudio() {
+        if (audioContext) return true;
+
+        const AudioContextClass =
+          window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) return false;
+
+        try {
+          audioContext = new AudioContextClass();
+          masterGain = audioContext.createGain();
+          masterGain.gain.value = 0;
+          masterGain.connect(audioContext.destination);
+          return true;
+        } catch (error) {
+          console.warn("Heartbeat audio is unavailable:", error);
+          audioContext = null;
+          masterGain = null;
+          return false;
+        }
       }
 
-      // Preload photos to make the reveal smoother.
-      photos.forEach((src) => {
-        const image = new Image();
-        image.src = src;
-      });
+      function beat(frequency, startTime, duration, volume) {
+        if (!audioContext || !masterGain) return;
 
-      /*
-       * Each beat has two thumps: lub-dub.
-       * The audio interval matches the heart animation.
-       */
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(frequency, startTime);
+        oscillator.frequency.exponentialRampToValueAtTime(
+          Math.max(25, frequency * 0.55),
+          startTime + duration
+        );
+
+        gain.gain.setValueAtTime(0.0001, startTime);
+        gain.gain.exponentialRampToValueAtTime(
+          Math.max(0.0002, volume),
+          startTime + 0.018
+        );
+        gain.gain.exponentialRampToValueAtTime(
+          0.0001,
+          startTime + duration
+        );
+
+        oscillator.connect(gain);
+        gain.connect(masterGain);
+
+        oscillator.start(startTime);
+        oscillator.stop(startTime + duration + 0.03);
+
+        oscillator.addEventListener("ended", () => {
+          oscillator.disconnect();
+          gain.disconnect();
+        }, { once: true });
+      }
+
       function makeHeartbeat() {
-        if (!audioContext || !heartbeatGain ||
-            audioContext.state !== "running") {
+        if (
+          !audioContext ||
+          audioContext.state !== "running" ||
+          soundMuted
+        ) {
           return;
         }
 
-        const ctx = audioContext;
-        const master = heartbeatGain;
-        const now = ctx.currentTime;
+        const now = audioContext.currentTime + 0.015;
 
-        [[0, 76, 1], [0.19, 54, 0.72]].forEach(
-          ([delay, frequency, strength]) => {
-            const oscillator = ctx.createOscillator();
-            const gain = ctx.createGain();
+        // Lub — dub: two soft low-frequency pulses.
+        beat(78, now, 0.22, 0.72);
+        beat(62, now + 0.19, 0.27, 0.52);
+      }
 
-            const time = now + delay;
-
-            oscillator.type = "sine";
-            oscillator.frequency.setValueAtTime(
-              frequency, time
-            );
-            oscillator.frequency.exponentialRampToValueAtTime(
-              32, time + 0.20
-            );
-
-            gain.gain.setValueAtTime(0.0001, time);
-            gain.gain.exponentialRampToValueAtTime(
-              0.85 * strength, time + 0.025
-            );
-            gain.gain.exponentialRampToValueAtTime(
-              0.0001, time + 0.24
-            );
-
-            oscillator.connect(gain);
-            gain.connect(master);
-
-            oscillator.start(time);
-            oscillator.stop(time + 0.26);
-          }
-        );
+      function clearHeartbeatTimer() {
+        if (heartbeatTimer !== null) {
+          clearInterval(heartbeatTimer);
+          heartbeatTimer = null;
+        }
       }
 
       function startHeartbeat() {
-        if (!audioReady || heartbeatTimer) return;
-
-        if (!audioContext ||
-            audioContext.state !== "running") {
+        if (
+          !audioReady ||
+          !audioContext ||
+          !masterGain ||
+          heartbeatTimer !== null ||
+          soundMuted
+        ) {
           return;
         }
 
-        // Restore volume smoothly when the heart returns.
-        const now = audioContext.currentTime;
+        if (fadeTimer !== null) {
+          clearInterval(fadeTimer);
+          fadeTimer = null;
+        }
 
-        heartbeatGain.gain.cancelScheduledValues(now);
-        heartbeatGain.gain.setValueAtTime(
-          Math.max(0.0001, heartbeatGain.gain.value), now
+        const generation = ++audioGeneration;
+
+        if (audioContext.state === "suspended") {
+          audioContext.resume().catch(() => {});
+        }
+
+        const now = audioContext.currentTime;
+        masterGain.gain.cancelScheduledValues(now);
+        masterGain.gain.setValueAtTime(
+          masterGain.gain.value,
+          now
         );
-        heartbeatGain.gain.linearRampToValueAtTime(
-          0.7, now + 0.35
-        );
+        masterGain.gain.linearRampToValueAtTime(0.72, now + 0.45);
 
         makeHeartbeat();
-
         heartbeatTimer = setInterval(
           makeHeartbeat,
           HEARTBEAT_INTERVAL
         );
+
+        // The generation check protects against an old fade
+        // interfering with a newly started heartbeat.
+        return generation;
       }
 
-      /*
-       * Browsers may block audio until a user interacts.
-       * The first tap unlocks sound and gives her time
-       * to hear the heartbeat before the heart disappears.
-       */
-      async function prepareHeartbeat() {
-        try {
-          const AudioContextClass =
-            window.AudioContext ||
-            window.webkitAudioContext;
+      function fadeHeartbeat() {
+        clearHeartbeatTimer();
 
-          if (!AudioContextClass) return false;
+        if (fadeTimer !== null) {
+          clearInterval(fadeTimer);
+          fadeTimer = null;
+        }
 
-          if (!audioContext) {
-            audioContext = new AudioContextClass();
-            heartbeatGain = audioContext.createGain();
-            heartbeatGain.gain.value = 0.7;
-            heartbeatGain.connect(audioContext.destination);
+        ++audioGeneration;
+
+        if (!audioContext || !masterGain) return;
+
+        const now = audioContext.currentTime;
+        const currentVolume = masterGain.gain.value;
+
+        masterGain.gain.cancelScheduledValues(now);
+        masterGain.gain.setValueAtTime(currentVolume, now);
+        masterGain.gain.linearRampToValueAtTime(0, now + 0.65);
+
+        // Ensure the audio gain is fully zero after the fade.
+        fadeTimer = setInterval(() => {
+          if (!audioContext || !masterGain) {
+            clearInterval(fadeTimer);
+            fadeTimer = null;
+            return;
           }
 
-          if (audioContext.state !== "running") {
+          if (audioContext.state === "closed") {
+            clearInterval(fadeTimer);
+            fadeTimer = null;
+            return;
+          }
+
+          if (masterGain.gain.value < 0.005) {
+            const t = audioContext.currentTime;
+            masterGain.gain.cancelScheduledValues(t);
+            masterGain.gain.setValueAtTime(0, t);
+            clearInterval(fadeTimer);
+            fadeTimer = null;
+          }
+        }, 80);
+      }
+
+      async function prepareHeartbeat() {
+        if (soundMuted) return false;
+        if (!createAudio()) return false;
+
+        try {
+          if (audioContext.state === "suspended") {
             await audioContext.resume();
           }
 
@@ -640,213 +739,147 @@
 
           return audioReady;
         } catch (error) {
-          console.warn("Heartbeat audio unavailable:", error);
+          console.warn("Could not start heartbeat audio:", error);
           return false;
         }
       }
 
-      /*
-       * Stop new beats and fade out any sound already playing.
-       */
-      function fadeHeartbeat() {
-        if (!audioContext || !heartbeatGain) return;
-
-        if (heartbeatTimer) {
-          clearInterval(heartbeatTimer);
-          heartbeatTimer = null;
-        }
-
-        const now = audioContext.currentTime;
-
-        heartbeatGain.gain.cancelScheduledValues(now);
-        heartbeatGain.gain.setValueAtTime(
-          heartbeatGain.gain.value, now
-        );
-        heartbeatGain.gain.linearRampToValueAtTime(
-          0, now + HEART_FADE_SECONDS
-        );
-
-        clearTimeout(fadeTimer);
-
-        fadeTimer = setTimeout(() => {
-          if (!heartbeatGain || !audioContext) return;
-
-          heartbeatGain.gain.cancelScheduledValues(
-            audioContext.currentTime
-          );
-          heartbeatGain.gain.setValueAtTime(
-            0, audioContext.currentTime
-          );
-        }, 850);
+      function preloadPhotos() {
+        memories.forEach(memory => {
+          const img = new Image();
+          img.src = memory.photo;
+        });
       }
 
-      function makeSparks() {
-        const symbols = ["♥", "♡", "✦", "♥", "♡"];
+      function showPhoto(memory) {
+        memoryPhoto.onerror = () => {
+          console.error("Could not load image:", memory.photo);
+          memoryPhoto.alt = "Photo not found: " + memory.photo;
+        };
 
-        for (let i = 0; i < symbols.length; i++) {
-          const spark = document.createElement("span");
+        memoryPhoto.onload = () => {
+          memoryPhoto.alt = memory.final
+            ? "My love compared with the observable universe"
+            : "A special memory";
+        };
 
-          spark.className = "spark";
-          spark.textContent = symbols[i];
-          spark.style.left = (35 + Math.random() * 30) + "%";
-          spark.style.top = (40 + Math.random() * 20) + "%";
-          spark.style.animationDelay =
-            (Math.random() * 0.2) + "s";
-
-          stage.appendChild(spark);
-
-          setTimeout(() => spark.remove(), 1500);
-        }
-      }
-
-      function returnHeart() {
-        current = (current + 1) % photos.length;
-
-        message.replaceChildren();
-
-        const label = document.createTextNode(
-          current === 0 ? "Touch my heart.." : "Touch me.."
-        );
-
-        const name = document.createElement("span");
-        name.textContent = names[current];
-
-        message.append(label, name);
-        message.classList.remove("hidden");
-
-        heart.classList.remove("leaving");
-        heart.classList.add("beating");
-        heart.style.pointerEvents = "auto";
-
-        busy = false;
-
-        // Resume the heartbeat with the returning heart.
-        startHeartbeat();
-      }
-
-      function fadeOutPhoto() {
-        photoFrame.classList.remove("visible");
-
-        later(() => {
-          photo.removeAttribute("src");
-          photoFrame.style.visibility = "hidden";
-          photoFrame.classList.remove("final-memory");
-
-          returnHeart();
-        }, 1050);
+        memoryPhoto.src = memory.photo;
+        photoFrame.classList.toggle("final-memory", memory.final);
+        photoFrame.classList.add("visible");
+        photoFrame.setAttribute("aria-hidden", "false");
       }
 
       async function showMemory() {
         if (busy) return;
 
         busy = true;
-        heart.style.pointerEvents = "none";
+        const sequence = ++sequenceGeneration;
+        const memory = memories[current];
 
-        clearTransitionTimers();
+        // A tap is required by most mobile browsers to unlock audio.
+        await prepareHeartbeat();
 
-        const isFirstTap = !audioReady;
-        const isFinalMemory = current === photos.length - 1;
+        if (sequence !== sequenceGeneration) return;
 
-        /*
-         * On the first tap, unlock audio and let her hear
-         * a few beats. On later taps, the beat is already running.
-         */
-        if (isFirstTap) {
-          await prepareHeartbeat();
-        }
+        // Give the lub-dub a moment to be heard before it fades.
+        await wait(300);
 
-        if (isFirstTap && audioReady) {
-          await new Promise(resolve => {
-            later(resolve, 2300);
-          });
-        }
+        if (sequence !== sequenceGeneration) return;
 
-        makeSparks();
-
-        // Heart and message disappear together.
+        experience.classList.add("hidden");
         fadeHeartbeat();
 
-        heart.classList.remove("beating");
-        heart.classList.add("leaving");
-        message.classList.add("hidden");
+        await wait(450);
 
-        // Wait for the heart to fade before revealing the photo.
-        later(() => {
-          photoFrame.classList.toggle(
-            "final-memory", isFinalMemory
-          );
+        if (sequence !== sequenceGeneration) return;
 
-          photoFrame.style.visibility = "visible";
+        showPhoto(memory);
 
-          photo.onload = () => {
-            photoFrame.classList.add("visible");
-          };
+        const duration = memory.final
+          ? FINAL_PHOTO_DURATION
+          : PHOTO_DURATION;
 
-          photo.onerror = () => {
-            console.error(
-              "Could not load " + photos[current] +
-              ". Check the filename and extension."
-            );
+        await wait(duration);
 
-            // Don't leave the experience stuck if a file is missing.
-            photoFrame.classList.remove("visible");
+        if (sequence !== sequenceGeneration) return;
 
-            later(() => {
-              photoFrame.style.visibility = "hidden";
-              returnHeart();
-            }, 1000);
-          };
+        photoFrame.classList.remove("visible");
+        photoFrame.setAttribute("aria-hidden", "true");
 
-          photo.src = photos[current];
+        // Allow the photo to fade out before restoring the heart.
+        await wait(1050);
 
-          // Cached images may already be loaded.
-          if (photo.complete && photo.naturalWidth > 0) {
-            photoFrame.classList.add("visible");
-          }
+        if (sequence !== sequenceGeneration) return;
 
-          // The final comparison gets a longer viewing time.
-          const displayTime = isFinalMemory ? 7500 : 4500;
+        experience.classList.remove("hidden");
 
-          later(fadeOutPhoto, displayTime);
-        }, 750);
+        // Advance to the next photo and pet name.
+        current = (current + 1) % memories.length;
+        petName.textContent = memories[current].name;
+
+        if (!soundMuted) {
+          startHeartbeat();
+        }
+
+        await wait(500);
+
+        if (sequence === sequenceGeneration) {
+          busy = false;
+        }
       }
 
-      heart.addEventListener("click", showMemory);
-
-      heart.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          showMemory();
+      function handleHeartActivation(event) {
+        if (
+          event &&
+          event.type === "keydown" &&
+          event.key !== "Enter" &&
+          event.key !== " "
+        ) {
+          return;
         }
+
+        if (event && event.type === "keydown") {
+          event.preventDefault();
+        }
+
+        showMemory();
+      }
+
+      heartArea.addEventListener("click", handleHeartActivation);
+      heartArea.addEventListener("keydown", handleHeartActivation);
+
+      silenceButton.addEventListener("click", () => {
+        if (soundMuted) return;
+
+        soundMuted = true;
+        fadeHeartbeat();
+
+        silenceButton.textContent = "♡ My heartbeat is now silent ♡";
+        silenceButton.classList.add("silenced");
+        silenceButton.disabled = true;
+
+        foreverMessage.classList.add("visible");
       });
 
-      /*
-       * Try autoplay once. If the browser blocks it,
-       * the first tap unlocks the heartbeat instead.
-       */
-      async function attemptAutoplay() {
-        try {
-          const AudioContextClass =
-            window.AudioContext || window.webkitAudioContext;
+      // Try autoplay, but browsers may require a user gesture.
+      // The first heart tap also attempts to enable audio.
+      function attemptAutoplay() {
+        if (!createAudio()) return;
 
-          if (!AudioContextClass) return;
-
-          audioContext = new AudioContextClass();
-          heartbeatGain = audioContext.createGain();
-          heartbeatGain.gain.value = 0;
-          heartbeatGain.connect(audioContext.destination);
-
-          if (audioContext.state === "running") {
-            audioReady = true;
-            startHeartbeat();
-          }
-        } catch (error) {
-          // First tap will attempt to unlock the audio.
-        }
+        audioContext.resume()
+          .then(() => {
+            if (audioContext.state === "running" && !soundMuted) {
+              audioReady = true;
+              startHeartbeat();
+            }
+          })
+          .catch(() => {
+            // Normal on mobile browsers before the first interaction.
+          });
       }
 
+      preloadPhotos();
       attemptAutoplay();
-
     })();
   </script>
 </body>
