@@ -461,17 +461,77 @@
         image.src = src;
       });
 
-      function playHeartbeat() {
-        try {
-          audioContext = audioContext ||
-            new (window.AudioContext ||
-                 window.webkitAudioContext)();
+      
+function playHeartbeat() {
+  try {
+    audioContext = audioContext ||
+      new (window.AudioContext ||
+           window.webkitAudioContext)();
 
-          if (audioContext.state === "suspended") {
-            audioContext.resume();
-          }
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
 
-          const now = audioContext.currentTime;
+    const ctx = audioContext;
+    const start = ctx.currentTime + 0.05;
+
+    // Three strong lub-dub beats, followed by softer fading beats.
+    const strongBeats = 3;
+    const beatInterval = 0.85;
+    const totalBeats = 8;
+
+    for (let beat = 0; beat < totalBeats; beat++) {
+      const isStrong = beat < strongBeats;
+
+      // First 3 beats are full volume; later beats fade gradually.
+      const fade = isStrong
+        ? 1
+        : Math.pow(
+            (totalBeats - beat) /
+            (totalBeats - strongBeats + 1),
+            1.8
+          );
+
+      const volume = 0.32 * fade;
+
+      // Each heartbeat consists of two thumps: lub-dub.
+      [[0, 78, 1], [0.19, 57, 0.72]].forEach(
+        ([offset, frequency, strength]) => {
+          const time = start + beat * beatInterval + offset;
+
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(frequency, time);
+          osc.frequency.exponentialRampToValueAtTime(
+            32,
+            time + 0.20
+          );
+
+          gain.gain.setValueAtTime(0.0001, time);
+          gain.gain.exponentialRampToValueAtTime(
+            volume * strength,
+            time + 0.025
+          );
+          gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            time + 0.24
+          );
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(time);
+          osc.stop(time + 0.26);
+        }
+      );
+    }
+  } catch (error) {
+    // The visual experience still works if audio is unavailable.
+  }
+}
+
 
           // Two soft thumps: lub-dub.
           [[0, 78, 0.24], [0.18, 57, 0.18]].forEach(
