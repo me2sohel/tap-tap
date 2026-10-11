@@ -5,13 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#10050c">
-  <title>♥</title>
+  <title>Touch My Heart ♥</title>
 
   <style>
     :root {
       --pink: #ff356e;
       --rose: #ff9bb8;
-      --dark: #10050c;
     }
 
     * {
@@ -28,7 +27,7 @@
     body {
       background:
         radial-gradient(ellipse at 50% 45%,
-          #421326 0%, #200b17 40%, #080509 100%);
+          #421326 0%, #200b17 42%, #080509 100%);
       color: #ffe3ec;
       font-family: Georgia, "Times New Roman", serif;
       -webkit-tap-highlight-color: transparent;
@@ -38,7 +37,7 @@
     .stage {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 100vh;
       height: 100dvh;
       overflow: hidden;
       display: flex;
@@ -46,8 +45,6 @@
       align-items: center;
       isolation: isolate;
     }
-
-    /* Soft romantic background */
 
     .glow {
       position: absolute;
@@ -68,31 +65,16 @@
 
     .particle {
       position: absolute;
+      bottom: -30px;
       color: #ff8aaa;
       opacity: 0;
       pointer-events: none;
-      animation: float 7s linear infinite;
+      animation: float 8s linear infinite;
     }
 
-    .particle:nth-child(2) {
-      left: 12%;
-      bottom: -20px;
-      animation-delay: 0s;
-    }
-
-    .particle:nth-child(3) {
-      left: 80%;
-      bottom: -20px;
-      animation-delay: 2s;
-    }
-
-    .particle:nth-child(4) {
-      left: 55%;
-      bottom: -20px;
-      animation-delay: 4s;
-    }
-
-    /* Main interactive area */
+    .p1 { left: 12%; animation-delay: 0s; }
+    .p2 { left: 78%; animation-delay: 2.5s; }
+    .p3 { left: 52%; animation-delay: 5s; }
 
     .experience {
       position: relative;
@@ -115,8 +97,14 @@
       align-items: center;
       cursor: pointer;
       touch-action: manipulation;
-      transition: opacity .65s ease, transform .65s ease;
-      filter: drop-shadow(0 0 20px #ff174b35);
+      -webkit-tap-highlight-color: transparent;
+      filter:
+        drop-shadow(0 0 15px #ff174b55)
+        drop-shadow(0 0 35px #ff174b30);
+      transition:
+        opacity .7s ease,
+        transform .7s ease,
+        filter .5s ease;
     }
 
     .heart-area.beating {
@@ -125,9 +113,16 @@
 
     .heart-area.leaving {
       opacity: 0;
-      transform: scale(.58);
+      transform: scale(.55);
+      filter: drop-shadow(0 0 0 transparent);
       pointer-events: none;
       animation: none;
+    }
+
+    .heart-area:focus-visible {
+      outline: 2px solid #ffb4c9;
+      outline-offset: 12px;
+      border-radius: 40%;
     }
 
     .heart-area svg {
@@ -137,35 +132,9 @@
       overflow: visible;
     }
 
-    /* Realistic-looking glossy heart */
-
-    .heart-base {
-      fill: url(#heartGradient);
-      stroke: #ff9bb5;
-      stroke-width: .8;
-    }
-
-    .heart-shadow {
-      fill: url(#shadowGradient);
-      pointer-events: none;
-    }
-
-    .heart-highlight {
-      fill: url(#shineGradient);
-      opacity: .82;
-      pointer-events: none;
-    }
-
-    .heart-glint {
-      fill: #fff0f5;
-      opacity: .8;
-      filter: url(#softGlow);
-      pointer-events: none;
-    }
-
     .heart-message {
-      margin-top: 24px;
-      min-height: 42px;
+      margin-top: 22px;
+      min-height: 44px;
       text-align: center;
       color: #ffd6e2;
       font-size: clamp(21px, 5vw, 29px);
@@ -173,7 +142,9 @@
       text-shadow: 0 0 18px #ff477e80;
       opacity: 1;
       transform: translateY(0);
-      transition: opacity .45s ease, transform .45s ease;
+      transition:
+        opacity .45s ease,
+        transform .45s ease;
       pointer-events: none;
     }
 
@@ -187,8 +158,6 @@
       font-style: italic;
     }
 
-    /* Photos */
-
     .photo-frame {
       position: absolute;
       z-index: 3;
@@ -196,14 +165,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 24px;
+      padding: 22px;
       opacity: 0;
       visibility: hidden;
       transform: scale(.94);
       transition:
-        opacity .75s ease,
+        opacity .8s ease,
         transform .85s cubic-bezier(.2,.8,.2,1),
-        visibility .75s;
+        visibility .8s;
       pointer-events: none;
     }
 
@@ -217,17 +186,15 @@
       display: block;
       width: auto;
       height: auto;
-      max-width: min(86vw, 480px);
+      max-width: min(88vw, 480px);
       max-height: 76dvh;
       object-fit: contain;
       border-radius: 16px;
       box-shadow:
         0 18px 70px #000a,
-        0 0 28px #ff356e30,
+        0 0 28px #ff356e35,
         0 0 0 1px #ffc1d51c;
     }
-
-    /* Small romantic light effects */
 
     .spark {
       position: absolute;
@@ -235,6 +202,7 @@
       pointer-events: none;
       color: #ff7da2;
       font-size: 20px;
+      text-shadow: 0 0 12px #ff477e;
       animation: sparkUp 1.2s ease-out forwards;
     }
 
@@ -278,29 +246,27 @@
 
     @media (max-width: 520px) {
       .heart-area {
-        width: min(72vw, 285px);
-      }
-
-      .photo-frame {
-        padding: 18px;
-      }
-
-      .photo-frame img {
-        max-width: 88vw;
-        max-height: 75dvh;
-        border-radius: 13px;
+        width: min(74vw, 285px);
       }
 
       .heart-message {
-        margin-top: 22px;
+        margin-top: 18px;
+      }
+
+      .photo-frame {
+        padding: 16px;
+      }
+
+      .photo-frame img {
+        max-width: 90vw;
+        max-height: 76dvh;
+        border-radius: 13px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .glow,
-      .particle,
-      .heart-area.beating {
-        animation-duration: 2s;
+      .glow, .particle {
+        animation-duration: 12s;
       }
     }
   </style>
@@ -311,16 +277,19 @@
 
     <div class="glow"></div>
 
-    <span class="particle">♡</span>
-    <span class="particle">♥</span>
-    <span class="particle">✦</span>
+    <span class="particle p1">♡</span>
+    <span class="particle p2">♥</span>
+    <span class="particle p3">✦</span>
 
     <section class="experience">
 
-      <div class="heart-area beating" id="heartArea"
-           role="button" tabindex="0"
-           aria-label="Touch my heart">
-
+      <div
+        class="heart-area beating"
+        id="heartArea"
+        role="button"
+        tabindex="0"
+        aria-label="Touch my heart"
+      >
         <svg viewBox="0 0 240 220"
              xmlns="http://www.w3.org/2000/svg"
              aria-hidden="true">
@@ -371,17 +340,21 @@
             </clipPath>
           </defs>
 
-          <path class="heart-base"
+          <path
+            fill="url(#heartGradient)"
+            stroke="#ff9bb5"
+            stroke-width=".8"
             d="M120 202
               C104 185 22 128 15 77
               C8 33 39 8 72 16
               C96 19 112 37 120 53
               C132 29 151 13 177 15
               C211 17 233 45 224 82
-              C215 130 144 185 120 202 Z"/>
+              C215 130 144 185 120 202 Z"
+          />
 
           <g clip-path="url(#heartClip)">
-            <path class="heart-shadow"
+            <path fill="url(#shadowGradient)"
               d="M120 53
                 C99 25 62 26 46 47
                 C31 67 43 100 66 123
@@ -390,18 +363,21 @@
                 C200 94 212 65 194 44
                 C177 25 144 28 120 53 Z"/>
 
-            <ellipse class="heart-highlight"
+            <ellipse fill="url(#shineGradient)"
               cx="68" cy="48" rx="36" ry="21"
               transform="rotate(-32 68 48)"/>
 
-            <ellipse class="heart-glint"
+            <ellipse fill="#fff0f5"
+              opacity=".8"
+              filter="url(#softGlow)"
               cx="52" cy="39" rx="15" ry="5"
               transform="rotate(-32 52 39)"/>
 
-            <path d="M24 78
-              C29 47 47 35 72 39"
-              fill="none" stroke="#ffd5e1"
-              stroke-opacity=".55" stroke-width="2"
+            <path d="M24 78 C29 47 47 35 72 39"
+              fill="none"
+              stroke="#ffd5e1"
+              stroke-opacity=".55"
+              stroke-width="2"
               stroke-linecap="round"/>
           </g>
         </svg>
@@ -414,17 +390,14 @@
     </section>
 
     <div class="photo-frame" id="photoFrame">
-      <img id="photo" src="" alt="A special memory">
+      <img id="photo" alt="A special memory">
     </div>
 
   </main>
 
   <script>
     (() => {
-      /*
-       * Put your 7 photos inside a folder named "images".
-       * Keep these filenames or change the paths below.
-       */
+      // Photos are in the repository root, beside index.html.
       const photos = [
         "photo1.jpg",
         "photo2.jpg",
@@ -455,117 +428,89 @@
       let busy = false;
       let audioContext = null;
 
-      // Preload all seven photos.
+      // Preload the photos.
       photos.forEach((src) => {
         const image = new Image();
         image.src = src;
       });
 
-      
-function playHeartbeat() {
-  try {
-    audioContext = audioContext ||
-      new (window.AudioContext ||
-           window.webkitAudioContext)();
+      /*
+       * Three strong lub-dub beats, then five
+       * gradually fading lub-dub beats.
+       */
+      function playHeartbeat() {
+        try {
+          const AudioContextClass =
+            window.AudioContext || window.webkitAudioContext;
 
-    if (audioContext.state === "suspended") {
-      audioContext.resume();
-    }
+          if (!AudioContextClass) return;
 
-    const ctx = audioContext;
-    const start = ctx.currentTime + 0.05;
+          audioContext = audioContext ||
+            new AudioContextClass();
 
-    // Three strong lub-dub beats, followed by softer fading beats.
-    const strongBeats = 3;
-    const beatInterval = 0.85;
-    const totalBeats = 8;
+          const ctx = audioContext;
 
-    for (let beat = 0; beat < totalBeats; beat++) {
-      const isStrong = beat < strongBeats;
+          const play = () => {
+            if (ctx.state !== "running") return;
 
-      // First 3 beats are full volume; later beats fade gradually.
-      const fade = isStrong
-        ? 1
-        : Math.pow(
-            (totalBeats - beat) /
-            (totalBeats - strongBeats + 1),
-            1.8
-          );
+            const start = ctx.currentTime + 0.05;
+            const totalBeats = 8;
+            const strongBeats = 3;
+            const beatInterval = 0.85;
 
-      const volume = 0.32 * fade;
+            for (let beat = 0; beat < totalBeats; beat++) {
+              const fade = beat < strongBeats
+                ? 1
+                : Math.pow(
+                    (totalBeats - beat) /
+                    (totalBeats - strongBeats + 1),
+                    1.8
+                  );
 
-      // Each heartbeat consists of two thumps: lub-dub.
-      [[0, 78, 1], [0.19, 57, 0.72]].forEach(
-        ([offset, frequency, strength]) => {
-          const time = start + beat * beatInterval + offset;
+              const volume = 0.32 * fade;
 
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
+              [[0, 78, 1], [0.19, 57, 0.72]].forEach(
+                ([offset, frequency, strength]) => {
+                  const time =
+                    start + beat * beatInterval + offset;
 
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(frequency, time);
-          osc.frequency.exponentialRampToValueAtTime(
-            32,
-            time + 0.20
-          );
+                  const oscillator = ctx.createOscillator();
+                  const gain = ctx.createGain();
 
-          gain.gain.setValueAtTime(0.0001, time);
-          gain.gain.exponentialRampToValueAtTime(
-            volume * strength,
-            time + 0.025
-          );
-          gain.gain.exponentialRampToValueAtTime(
-            0.0001,
-            time + 0.24
-          );
+                  oscillator.type = "sine";
+                  oscillator.frequency.setValueAtTime(
+                    frequency, time
+                  );
+                  oscillator.frequency.exponentialRampToValueAtTime(
+                    32, time + 0.20
+                  );
 
-          osc.connect(gain);
-          gain.connect(ctx.destination);
+                  gain.gain.setValueAtTime(0.0001, time);
+                  gain.gain.exponentialRampToValueAtTime(
+                    volume * strength, time + 0.025
+                  );
+                  gain.gain.exponentialRampToValueAtTime(
+                    0.0001, time + 0.24
+                  );
 
-          osc.start(time);
-          osc.stop(time + 0.26);
-        }
-      );
-    }
-  } catch (error) {
-    // The visual experience still works if audio is unavailable.
-  }
-}
+                  oscillator.connect(gain);
+                  gain.connect(ctx.destination);
 
-
-          // Two soft thumps: lub-dub.
-          [[0, 78, 0.24], [0.18, 57, 0.18]].forEach(
-            ([delay, frequency, volume]) => {
-              const oscillator = audioContext.createOscillator();
-              const gain = audioContext.createGain();
-
-              oscillator.type = "sine";
-              oscillator.frequency.setValueAtTime(
-                frequency, now + delay
+                  oscillator.start(time);
+                  oscillator.stop(time + 0.26);
+                }
               );
-              oscillator.frequency.exponentialRampToValueAtTime(
-                35, now + delay + 0.16
-              );
-
-              gain.gain.setValueAtTime(
-                0.0001, now + delay
-              );
-              gain.gain.exponentialRampToValueAtTime(
-                volume, now + delay + 0.025
-              );
-              gain.gain.exponentialRampToValueAtTime(
-                0.0001, now + delay + 0.22
-              );
-
-              oscillator.connect(gain);
-              gain.connect(audioContext.destination);
-
-              oscillator.start(now + delay);
-              oscillator.stop(now + delay + 0.23);
             }
-          );
+          };
+
+          // Mobile browsers require audio to be unlocked by a tap.
+          if (ctx.state === "suspended") {
+            ctx.resume().then(play).catch(() => {});
+          } else {
+            play();
+          }
         } catch (error) {
-          // The animation continues if audio is unavailable.
+          console.warn("Heartbeat audio unavailable:", error);
         }
       }
 
@@ -574,20 +519,32 @@ function playHeartbeat() {
 
         for (let i = 0; i < 5; i++) {
           const spark = document.createElement("span");
+
           spark.className = "spark";
           spark.textContent = symbols[i];
-
-          spark.style.left =
-            (35 + Math.random() * 30) + "%";
-          spark.style.top =
-            (40 + Math.random() * 20) + "%";
+          spark.style.left = (35 + Math.random() * 30) + "%";
+          spark.style.top = (40 + Math.random() * 20) + "%";
           spark.style.animationDelay =
             (Math.random() * 0.2) + "s";
 
           stage.appendChild(spark);
-
           setTimeout(() => spark.remove(), 1500);
         }
+      }
+
+      function returnHeart() {
+        current = (current + 1) % photos.length;
+
+        message.innerHTML =
+          'Touch me..<span>' + names[current] + '</span>';
+
+        message.classList.remove("hidden");
+
+        heart.classList.remove("leaving");
+        heart.classList.add("beating");
+        heart.style.pointerEvents = "auto";
+
+        busy = false;
       }
 
       function fadeOutPhoto() {
@@ -596,47 +553,35 @@ function playHeartbeat() {
         setTimeout(() => {
           photo.removeAttribute("src");
           photoFrame.style.visibility = "hidden";
-
-          // Return the heart with the next pet name.
-          current = (current + 1) % photos.length;
-          message.innerHTML =
-            'Touch me..<span>' + names[current] + '</span>';
-
-          message.classList.remove("hidden");
-          heart.classList.remove("leaving");
-          heart.classList.add("beating");
-          heart.style.pointerEvents = "auto";
-
-          busy = false;
-        }, 800);
+          returnHeart();
+        }, 850);
       }
 
       function showMemory() {
         if (busy) return;
+
         busy = true;
 
         playHeartbeat();
         makeSparks();
 
-        // Heart and message disappear together.
+        // Fade out the heart and its message.
         heart.classList.remove("beating");
         heart.classList.add("leaving");
         message.classList.add("hidden");
 
-        // Start showing the selected photo.
+        // Reveal this tap's photo.
         setTimeout(() => {
           photoFrame.style.visibility = "visible";
           photo.src = photos[current];
           photoFrame.classList.add("visible");
 
-          // Keep the memory visible for a few seconds.
-          setTimeout(() => {
-            fadeOutPhoto();
-          }, 3000);
-
-        }, 300);
+          // Show the photo for three seconds.
+          setTimeout(fadeOutPhoto, 3000);
+        }, 350);
       }
 
+      // Touch, mouse click, or keyboard activation.
       heart.addEventListener("click", showMemory);
 
       heart.addEventListener("keydown", (event) => {
@@ -644,6 +589,14 @@ function playHeartbeat() {
           event.preventDefault();
           showMemory();
         }
+      });
+
+      // Report a missing image instead of silently failing.
+      photo.addEventListener("error", () => {
+        console.error(
+          "Photo could not load. Check filename and capitalization:",
+          photos[current]
+        );
       });
 
     })();
